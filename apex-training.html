@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX Training — Unleash Your Potential</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --dark: #0f0f0f;
+    --card: #141414;
+    --orange: #ff4d00;
+    --orange-hot: #ff6b2b;
+    --orange-glow: rgba(255,77,0,0.15);
+    --white: #f5f5f5;
+    --muted: #666;
+    --border: rgba(255,77,0,0.12);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Barlow', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 5rem;
+    transition: background 0.4s, border-bottom 0.4s;
+  }
+  nav.scrolled { background: rgba(8,8,8,0.97); border-bottom: 1px solid var(--border); }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
+    letter-spacing: 0.1em; color: var(--white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,245,245,0.5); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta {
+    background: var(--orange); color: var(--white) !important; font-weight: 700 !important;
+    padding: 0.6rem 1.5rem; letter-spacing: 0.1em !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--orange-hot) !important; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 8rem 5rem 5rem; position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%);
+  }
+  .hero-lines {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg, transparent, transparent 60px,
+      rgba(255,77,0,0.02) 60px, rgba(255,77,0,0.02) 61px
+    );
+  }
+  .hero-glow {
+    position: absolute; width: 800px; height: 500px;
+    background: radial-gradient(ellipse, rgba(255,77,0,0.1) 0%, transparent 65%);
+    bottom: -100px; left: -200px; pointer-events: none;
+  }
+  .hero-number {
+    position: absolute; right: 4rem; top: 50%; transform: translateY(-50%);
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(12rem, 28vw, 24rem);
+    color: rgba(255,77,0,0.04); letter-spacing: -0.05em; line-height: 1;
+    pointer-events: none; user-select: none;
+  }
+  .hero-content { position: relative; max-width: 900px; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
+  }
+  .hero-tag::before { content: ''; width: 30px; height: 2px; background: var(--orange); }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 13vw, 12rem); line-height: 0.88;
+    letter-spacing: 0.02em; margin-bottom: 2rem;
+  }
+  h1 .line { display: block; overflow: hidden; }
+  h1 .line span { display: block; opacity: 0; transform: translateY(105%); animation: slideUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards; }
+  h1 .line:nth-child(1) span { animation-delay: 0.25s; }
+  h1 .line:nth-child(2) span { animation-delay: 0.4s; }
+  h1 .line:nth-child(3) span { animation-delay: 0.55s; }
+  h1 .orange { color: var(--orange); }
+  .hero-sub {
+    font-size: 1rem; font-weight: 400; color: rgba(245,245,245,0.45); line-height: 1.7;
+    max-width: 460px; margin-bottom: 3rem;
+    opacity: 0; animation: fadeUp 0.7s 0.8s forwards;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 2rem; opacity: 0; animation: fadeUp 0.7s 1s forwards; }
+  .btn-fire {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--orange); color: var(--white);
+    font-family: 'Barlow', sans-serif; font-size: 0.8rem; font-weight: 800;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 1rem 2.5rem; text-decoration: none;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: background 0.2s, transform 0.2s;
+  }
+  .btn-fire:hover { background: var(--orange-hot); transform: translateY(-2px); }
+  .btn-ghost {
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(245,245,245,0.4); text-decoration: none;
+    border-bottom: 1px solid rgba(245,245,245,0.15); padding-bottom: 3px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--orange); border-color: var(--orange); }
+  .hero-bar {
+    display: flex; gap: 3rem; margin-top: 4rem; padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    opacity: 0; animation: fadeUp 0.7s 1.2s forwards;
+  }
+  .hbar-item { }
+  .hbar-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--orange); letter-spacing: 0.05em; line-height: 1; }
+  .hbar-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+
+  /* PROGRAMS */
+  #programs { background: var(--dark); padding: 7rem 5rem; }
+  .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem; }
+  .section-eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.75rem; }
+  #programs h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); letter-spacing: 0.05em; line-height: 0.95; }
+  #programs h2 span { color: var(--orange); }
+  .programs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: rgba(255,77,0,0.08); }
+  .program-card {
+    background: var(--dark); padding: 2.5rem 2rem; position: relative; overflow: hidden;
+    transition: background 0.3s;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+  }
+  .program-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px;
+    background: var(--orange); transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .program-card:hover::before { width: 100%; }
+  .program-card:hover { background: #111; }
+  .program-icon { font-size: 2rem; margin-bottom: 1.25rem; }
+  .program-num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: rgba(255,77,0,0.06); line-height: 1; margin-bottom: 0.5rem; }
+  .program-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+  .program-desc { font-size: 0.875rem; color: rgba(245,245,245,0.4); line-height: 1.7; margin-bottom: 1.5rem; }
+  .program-details { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .program-detail { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); }
+
+  /* RESULTS */
+  #results { background: var(--black); padding: 7rem 5rem; }
+  #results h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); letter-spacing: 0.05em; margin-bottom: 1rem; }
+  #results h2 span { color: var(--orange); }
+  #results .sub { font-size: 1rem; color: rgba(245,245,245,0.4); max-width: 480px; line-height: 1.7; margin-bottom: 4rem; }
+  .results-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+  .result-card { background: var(--black); padding: 2.5rem 1.75rem; text-align: center; position: relative; overflow: hidden; }
+  .result-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,77,0,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .result-before-after { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
+  .result-change {
+    font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--orange);
+    letter-spacing: 0.05em; line-height: 1; margin-bottom: 0.5rem;
+  }
+  .result-metric { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(245,245,245,0.6); margin-bottom: 0.75rem; }
+  .result-name { font-size: 0.78rem; color: var(--muted); }
+  .results-bar { margin-top: 4rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.05); }
+  .rbar-item { display: flex; flex-direction: column; gap: 0.75rem; }
+  .rbar-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(245,245,245,0.4); }
+  .rbar-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+  .rbar-fill { height: 100%; background: var(--orange); border-radius: 2px; transition: width 1.5s cubic-bezier(0.16,1,0.3,1); width: 0; }
+  .rbar-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.75rem; color: var(--white); letter-spacing: 0.05em; }
+
+  /* PRICING */
+  #pricing { background: var(--dark); padding: 7rem 5rem; }
+  #pricing h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); letter-spacing: 0.05em; margin-bottom: 1rem; }
+  #pricing h2 span { color: var(--orange); }
+  #pricing .sub { font-size: 1rem; color: rgba(245,245,245,0.4); max-width: 480px; line-height: 1.7; margin-bottom: 4rem; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .price-card {
+    background: var(--card); border: 1px solid rgba(255,255,255,0.05); padding: 2.5rem 2rem;
+    position: relative; transition: border-color 0.3s, transform 0.3s;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+  .price-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+  .price-card.featured { background: var(--orange); border-color: var(--orange); }
+  .price-card.featured * { color: var(--white); }
+  .price-badge { display: inline-block; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); border: 1px solid var(--orange); padding: 0.25rem 0.75rem; margin-bottom: 1.5rem; }
+  .price-card.featured .price-badge { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.4); }
+  .price-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+  .price-amount { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; letter-spacing: 0.02em; line-height: 1; color: var(--white); }
+  .price-amount sup { font-size: 1.5rem; vertical-align: top; padding-top: 0.75rem; display: inline-block; }
+  .price-amount span { font-size: 1rem; font-family: 'Barlow', sans-serif; font-weight: 400; color: rgba(245,245,245,0.4); }
+  .price-card.featured .price-amount span { color: rgba(255,255,255,0.6); }
+  .price-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 1.75rem 0; }
+  .price-card.featured .price-divider { background: rgba(255,255,255,0.2); }
+  .price-features { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+  .price-feature { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: rgba(245,245,245,0.6); }
+  .price-feature::before { content: '✓'; color: var(--orange); font-weight: 800; flex-shrink: 0; }
+  .price-card.featured .price-feature { color: rgba(255,255,255,0.85); }
+  .price-card.featured .price-feature::before { color: rgba(255,255,255,0.9); }
+  .price-cta {
+    display: block; text-align: center; padding: 0.875rem 1.5rem;
+    font-size: 0.8rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.2s;
+    background: transparent; color: var(--orange); border: 1px solid var(--orange);
+  }
+  .price-cta:hover { background: var(--orange); color: var(--white); }
+  .price-card.featured .price-cta { background: var(--white); color: var(--orange); border-color: var(--white); }
+  .price-card.featured .price-cta:hover { background: rgba(255,255,255,0.9); }
+
+  /* CONTACT */
+  #contact { background: var(--black); padding: 7rem 5rem; }
+  .contact-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: start; }
+  .contact-left h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 5vw, 4.5rem); letter-spacing: 0.05em; line-height: 0.95; margin-bottom: 1.5rem; }
+  .contact-left h2 span { color: var(--orange); }
+  .contact-left p { font-size: 0.95rem; color: rgba(245,245,245,0.4); line-height: 1.7; margin-bottom: 2.5rem; }
+  .contact-info-items { display: flex; flex-direction: column; gap: 1rem; }
+  .ci-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--card); border-left: 2px solid var(--orange); }
+  .ci-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); min-width: 60px; }
+  .ci-val { font-size: 0.875rem; color: rgba(245,245,245,0.7); }
+  .contact-form { display: flex; flex-direction: column; gap: 1.25rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,245,245,0.3); }
+  .form-input, .form-select, .form-textarea {
+    background: var(--card); border: 1px solid rgba(255,255,255,0.06);
+    color: var(--white); font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+    padding: 0.875rem 1rem; outline: none; width: 100%;
+    transition: border-color 0.2s; -webkit-appearance: none;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--orange); }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(245,245,245,0.15); }
+  .form-textarea { min-height: 120px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .form-submit {
+    align-self: flex-start; background: var(--orange); color: var(--white);
+    font-family: 'Barlow', sans-serif; font-size: 0.8rem; font-weight: 800;
+    letter-spacing: 0.18em; text-transform: uppercase; padding: 1rem 2.5rem;
+    border: none; cursor: pointer; transition: background 0.2s, transform 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .form-submit:hover { background: var(--orange-hot); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer { background: #050505; border-top: 1px solid var(--border); padding: 2.5rem 5rem; display: flex; align-items: center; justify-content: space-between; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.1em; color: var(--white); text-decoration: none; }
+  .footer-logo span { color: var(--orange); }
+  .footer-copy { font-size: 0.75rem; color: var(--muted); }
+  .footer-tagline { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,77,0,0.4); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(105%); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 1024px) {
+    nav { padding: 1.25rem 2rem; } .nav-links { display: none; }
+    #hero, #programs, #results, #pricing, #contact { padding-left: 2rem; padding-right: 2rem; }
+    .programs-grid, .results-grid, .pricing-grid { grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-wrap: wrap; gap: 1rem; }
+  }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .hero-bar { gap: 1.5rem; } }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">APEX<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact" class="nav-cta">Start Now</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-number">1</div>
+  <div class="hero-content">
+    <div class="hero-tag">Elite Personal Training</div>
+    <h1>
+      <span class="line"><span>NO</span></span>
+      <span class="line"><span>EXCUSES.</span></span>
+      <span class="line"><span>JUST <span class="orange">RESULTS.</span></span></span>
+    </h1>
+    <p class="hero-sub">APEX Training is where average ends and extraordinary begins. Built for people who are serious about transforming their body and their life.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-fire">Start Training →</a>
+      <a href="#programs" class="btn-ghost">See Programs</a>
+    </div>
+    <div class="hero-bar">
+      <div class="hbar-item"><div class="hbar-num">800+</div><div class="hbar-label">Athletes Trained</div></div>
+      <div class="hbar-item"><div class="hbar-num">94%</div><div class="hbar-label">Goal Achievement</div></div>
+      <div class="hbar-item"><div class="hbar-num">8yr</div><div class="hbar-label">Elite Experience</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="programs">
+  <div class="section-header">
+    <div>
+      <p class="section-eyebrow reveal">What We Offer</p>
+      <h2 class="reveal reveal-delay-1">BUILT FOR <span>EVERY</span><br>LEVEL OF BEAST.</h2>
+    </div>
+  </div>
+  <div class="programs-grid">
+    <div class="program-card reveal">
+      <div class="program-icon">🔥</div>
+      <div class="program-num">01</div>
+      <h3 class="program-name">Strength & Power</h3>
+      <p class="program-desc">Progressive overload programming designed to build raw strength, muscle mass, and power output. No fluff, pure iron.</p>
+      <div class="program-details"><span class="program-detail">3-5x / Week</span><span class="program-detail">All Levels</span></div>
+    </div>
+    <div class="program-card reveal reveal-delay-1">
+      <div class="program-icon">⚡</div>
+      <div class="program-num">02</div>
+      <h3 class="program-name">HIIT & Conditioning</h3>
+      <p class="program-desc">High-intensity intervals that torch fat and push your cardiovascular limits. Fast, brutal, effective.</p>
+      <div class="program-details"><span class="program-detail">4x / Week</span><span class="program-detail">Intermediate+</span></div>
+    </div>
+    <div class="program-card reveal reveal-delay-2">
+      <div class="program-icon">🏆</div>
+      <div class="program-num">03</div>
+      <h3 class="program-name">Athletic Performance</h3>
+      <p class="program-desc">Speed, agility, explosiveness. Whether you compete or just want to perform like an athlete — this is your program.</p>
+      <div class="program-details"><span class="program-detail">5x / Week</span><span class="program-detail">Advanced</span></div>
+    </div>
+    <div class="program-card reveal reveal-delay-3">
+      <div class="program-icon">🎯</div>
+      <div class="program-num">04</div>
+      <h3 class="program-name">Body Recomposition</h3>
+      <p class="program-desc">Lose fat and build muscle simultaneously. Custom nutrition + training protocols tailored to your exact body type.</p>
+      <div class="program-details"><span class="program-detail">4x / Week</span><span class="program-detail">All Levels</span></div>
+    </div>
+    <div class="program-card reveal reveal-delay-1">
+      <div class="program-icon">🌅</div>
+      <div class="program-num">05</div>
+      <h3 class="program-name">Beginner Foundations</h3>
+      <p class="program-desc">Start smart. Build real technique, confidence, and a baseline of fitness that everything else grows from.</p>
+      <div class="program-details"><span class="program-detail">3x / Week</span><span class="program-detail">Beginners</span></div>
+    </div>
+    <div class="program-card reveal reveal-delay-2">
+      <div class="program-icon">💪</div>
+      <div class="program-num">06</div>
+      <h3 class="program-name">1-on-1 Personal Training</h3>
+      <p class="program-desc">Maximum attention, maximum results. Your program, your pace, your goals — handled with full intensity.</p>
+      <div class="program-details"><span class="program-detail">Custom</span><span class="program-detail">All Levels</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <p class="section-eyebrow reveal">Real Transformations</p>
+  <h2 class="reveal reveal-delay-1">THE NUMBERS <span>DON'T LIE.</span></h2>
+  <p class="sub reveal reveal-delay-2">These aren't cherry-picked outliers. This is what happens when real people commit to the process. Average results across our client base.</p>
+  <div class="results-grid">
+    <div class="result-card reveal">
+      <div class="result-before-after">Avg. 90 Days</div>
+      <div class="result-change">−22 lbs</div>
+      <div class="result-metric">Fat Lost</div>
+      <div class="result-name">Body Recomp Program</div>
+    </div>
+    <div class="result-card reveal reveal-delay-1">
+      <div class="result-before-after">Avg. 12 Weeks</div>
+      <div class="result-change">+18 lbs</div>
+      <div class="result-metric">Muscle Gained</div>
+      <div class="result-name">Strength & Power Program</div>
+    </div>
+    <div class="result-card reveal reveal-delay-2">
+      <div class="result-before-after">Avg. 8 Weeks</div>
+      <div class="result-change">+31%</div>
+      <div class="result-metric">Strength Increase</div>
+      <div class="result-name">All Programs</div>
+    </div>
+    <div class="result-card reveal reveal-delay-3">
+      <div class="result-before-after">Within 6 Months</div>
+      <div class="result-change">94%</div>
+      <div class="result-metric">Hit Their Goal</div>
+      <div class="result-name">All Clients</div>
+    </div>
+  </div>
+  <div class="results-bar reveal">
+    <div class="rbar-item">
+      <div class="rbar-label">Client Retention Rate</div>
+      <div class="rbar-track"><div class="rbar-fill" data-width="88"></div></div>
+      <div class="rbar-val">88%</div>
+    </div>
+    <div class="rbar-item">
+      <div class="rbar-label">Goal Achievement Rate</div>
+      <div class="rbar-track"><div class="rbar-fill" data-width="94"></div></div>
+      <div class="rbar-val">94%</div>
+    </div>
+    <div class="rbar-item">
+      <div class="rbar-label">Would Recommend</div>
+      <div class="rbar-track"><div class="rbar-fill" data-width="97"></div></div>
+      <div class="rbar-val">97%</div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <p class="section-eyebrow reveal">Investment</p>
+  <h2 class="reveal reveal-delay-1">CHOOSE YOUR <span>WEAPON.</span></h2>
+  <p class="sub reveal reveal-delay-2">No hidden fees. No long-term contracts. Cancel anytime. Just results.</p>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <div class="price-badge">Starter</div>
+      <div class="price-name">Grind</div>
+      <div class="price-amount"><sup>$</sup>149<span>/mo</span></div>
+      <div class="price-divider"></div>
+      <div class="price-features">
+        <div class="price-feature">1x weekly training session</div>
+        <div class="price-feature">Custom workout plan</div>
+        <div class="price-feature">Basic nutrition guidance</div>
+        <div class="price-feature">Progress tracking app</div>
+        <div class="price-feature">Community access</div>
+      </div>
+      <a href="#contact" class="price-cta">Get Started →</a>
+    </div>
+    <div class="price-card featured reveal reveal-delay-1">
+      <div class="price-badge">Most Popular</div>
+      <div class="price-name">Apex</div>
+      <div class="price-amount"><sup>$</sup>249<span>/mo</span></div>
+      <div class="price-divider"></div>
+      <div class="price-features">
+        <div class="price-feature">3x weekly training sessions</div>
+        <div class="price-feature">Full custom programming</div>
+        <div class="price-feature">Complete nutrition plan</div>
+        <div class="price-feature">Weekly check-ins</div>
+        <div class="price-feature">24/7 coaching support</div>
+        <div class="price-feature">Monthly body composition test</div>
+      </div>
+      <a href="#contact" class="price-cta">Get Started →</a>
+    </div>
+    <div class="price-card reveal reveal-delay-2">
+      <div class="price-badge">Elite</div>
+      <div class="price-name">Unleashed</div>
+      <div class="price-amount"><sup>$</sup>449<span>/mo</span></div>
+      <div class="price-divider"></div>
+      <div class="price-features">
+        <div class="price-feature">Unlimited training sessions</div>
+        <div class="price-feature">1-on-1 personal coaching</div>
+        <div class="price-feature">Precision nutrition coaching</div>
+        <div class="price-feature">Daily check-ins</div>
+        <div class="price-feature">Supplement guidance</div>
+        <div class="price-feature">Competition prep available</div>
+      </div>
+      <a href="#contact" class="price-cta">Get Started →</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <p class="section-eyebrow reveal">Ready to Start?</p>
+      <h2 class="reveal reveal-delay-1">STOP WAITING.<br>START <span>WINNING.</span></h2>
+      <p class="reveal reveal-delay-2">The only bad workout is the one you didn't do. Fill out the form and we'll get you started within 24 hours.</p>
+      <div class="contact-info-items reveal reveal-delay-3">
+        <div class="ci-item"><span class="ci-label">Location</span><span class="ci-val">812 Iron Ave, Austin, TX 78701</span></div>
+        <div class="ci-item"><span class="ci-label">Phone</span><span class="ci-val">(512) 555-0174</span></div>
+        <div class="ci-item"><span class="ci-label">Email</span><span class="ci-val">train@apextraining.com</span></div>
+        <div class="ci-item"><span class="ci-label">Hours</span><span class="ci-val">Mon–Sat: 5am – 10pm · Sun: 7am – 6pm</span></div>
+      </div>
+    </div>
+    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" placeholder="Marcus" required></div>
+        <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Williams" required></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" placeholder="marcus@email.com" required></div>
+      <div class="form-group"><label class="form-label">Program Interest</label>
+        <select class="form-select"><option disabled selected>Pick a program</option><option>Strength & Power</option><option>HIIT & Conditioning</option><option>Athletic Performance</option><option>Body Recomposition</option><option>Beginner Foundations</option><option>1-on-1 Personal Training</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Your Goal</label><textarea class="form-textarea" placeholder="What do you want to achieve? Be specific. Lose 20lbs? Compete? Get strong? We want to know."></textarea></div>
+      <button type="submit" class="form-submit">Let's Get To Work →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <a href="#" class="footer-logo">APEX<span>.</span></a>
+  <p class="footer-copy">© 2025 APEX Training. All rights reserved.</p>
+  <p class="footer-tagline">No Excuses. Just Results.</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.rbar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { const t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }));
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = "WE'LL BE IN TOUCH ✓"; btn.style.background = '#1a1a1a'; btn.style.color = 'var(--orange)'; btn.disabled = true;
+  }
+</script>
+</body>
+</html>
